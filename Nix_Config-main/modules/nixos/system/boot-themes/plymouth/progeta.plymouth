@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Progeta
+Description=Progeta Custom Boot Theme
+ModuleName=script
+
+[script]
+ImageDir=@out@/share/plymouth/themes/progeta
+ScriptFile=@out@/share/plymouth/themes/progeta/progeta.script

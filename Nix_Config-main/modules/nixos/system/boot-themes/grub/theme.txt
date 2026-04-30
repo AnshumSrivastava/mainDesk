@@ -1,0 +1,21 @@
+# Progeta GRUB Theme
+# Branding Colors: #050505 (Background), #3B82F6 (Accent)
+
+title-text: "Progeta Linux"
+desktop-image: "background.png"
+desktop-color: "#050505"
+
+# Default selected option styling
+item_color = "#A1A1AA"
+selected_item_color = "#3B82F6"
+
++ boot_menu {
+    left = 25%
+    top = 65%
+    width = 50%
+    height = 20%
+    item_color = "#A1A1AA"
+    selected_item_color = "#3B82F6"
+    item_height = 36
+    item_spacing = 8
+}

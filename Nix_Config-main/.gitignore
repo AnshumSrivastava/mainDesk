@@ -1,0 +1,16 @@
+# Ignore build outputs from performing a nix-build or `nix build` command
+result
+result-*
+
+# Ignore automatically generated direnv output
+.direnv
+
+variables.nix
+hardware-configuration.nix
+
+# Ignore build outputs from performing a nix-build or `nix build` command
+result
+result-*
+
+# Ignore automatically generated direnv output
+.direnv

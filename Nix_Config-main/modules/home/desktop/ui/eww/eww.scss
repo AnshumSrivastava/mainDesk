@@ -1,0 +1,263 @@
+* {
+  all: unset;
+  font-family: "Creato Display", "JetBrainsMono Nerd Font", "FiraCode Nerd Font", "Inter", sans-serif;
+}
+
+/* Base Window */
+window {
+  background-color: transparent;
+  color: #cdd6f4;
+  /* Catppuccin Text */
+}
+
+/* Glassmorphism Pill Style */
+.pill {
+  background-color: rgba(30, 30, 46, 0.7);
+  /* Catppuccin Mantle */
+  border: 1px solid rgba(180, 190, 254, 0.2);
+  /* Catppuccin Lavender */
+  border-radius: 100px;
+  padding: 4px 20px;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  min-height: 28px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.left {
+  padding-left: 10px;
+}
+
+.right {
+  padding-right: 10px;
+}
+
+/* Interactable Pill Overrides */
+.interactable {
+  cursor: pointer;
+}
+
+.interactable:hover {
+  background-color: rgba(49, 50, 68, 0.9);
+  /* Catppuccin Surface0 */
+  border: 1px solid rgba(180, 190, 254, 0.4);
+  /* Catppuccin Lavender */
+  box-shadow: 0 0 15px rgba(180, 190, 254, 0.25);
+  transform: translateY(-1px);
+}
+
+.interactable:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+/* Launch widget */
+.launch button {
+  font-size: 18px;
+  color: #b4befe;
+  /* Catppuccin Lavender */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.launch button:hover {
+  text-shadow: 0 0 8px rgba(122, 162, 247, 0.5);
+}
+
+/* Active Apps widget */
+.active-apps {
+  padding: 4px 16px;
+}
+
+.active-apps .app-icon {
+  font-size: 16px;
+  color: #565f89;
+  /* dimmed unactive color */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.active-apps .app-icon.active {
+  color: #cba6f7;
+  /* Catppuccin Mauve */
+  text-shadow: 0 0 8px rgba(203, 166, 247, 0.5);
+}
+
+.active-apps .app-icon:hover {
+  color: #c0caf5;
+}
+
+/* Media widget */
+.media {
+  padding: 4px 16px;
+}
+
+.media-icon {
+  color: #a6e3a1;
+  /* Catppuccin Green */
+  font-size: 16px;
+}
+
+.media-title {
+  color: #a9b1d6;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* Window Title widget */
+.window-title {
+  color: #a9b1d6;
+  font-weight: bold;
+}
+
+/* Popups */
+.pill-popup {
+  background-color: rgba(30, 30, 46, 0.85);
+  /* Catppuccin Mantle */
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(180, 190, 254, 0.3);
+  /* Catppuccin Lavender */
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Utilities Toggle Buttons */
+.util-toggle {
+  background-color: rgba(41, 46, 66, 0.4);
+  border: 1px solid rgba(122, 162, 247, 0.1);
+  border-radius: 18px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.util-toggle.active {
+  background-color: rgba(180, 190, 254, 0.9);
+  /* Catppuccin Lavender */
+  box-shadow: 0 0 20px rgba(180, 190, 254, 0.3);
+  color: #1e1e2e;
+  /* Catppuccin Base */
+  border: 1px solid rgba(180, 190, 254, 1);
+}
+
+.util-toggle.active .util-label,
+.util-toggle.active .util-icon {
+  color: #1a1b26;
+  font-weight: 700;
+}
+
+.util-toggle:hover {
+  background-color: rgba(65, 72, 104, 0.6);
+  border: 1px solid rgba(122, 162, 247, 0.4);
+  transform: scale(1.02);
+}
+
+.util-icon {
+  font-size: 24px;
+}
+
+/* Volume Slider in Popup */
+.volume-slider-box {
+  background-color: rgba(41, 46, 66, 0.9);
+  border-radius: 16px;
+  padding: 10px 15px;
+}
+
+.slider-icon {
+  font-size: 20px;
+  color: #7aa2f7;
+}
+
+scale trough {
+  background-color: rgba(26, 27, 38, 0.8);
+  border-radius: 100px;
+  min-height: 10px;
+  min-width: 200px;
+  border: 1px solid rgba(122, 162, 247, 0.1);
+}
+
+scale highlight {
+  background-color: #7aa2f7;
+  border-radius: 100px;
+  box-shadow: 0 0 10px rgba(122, 162, 247, 0.5);
+}
+
+/* Misc Buttons */
+.min-btn {
+  background-color: rgba(41, 46, 66, 0.9);
+  border-radius: 100px;
+  padding: 12px 18px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.min-btn:hover {
+  background-color: #f7768e;
+  /* Tokyo night red/pink on hover */
+  color: #1a1b26;
+}
+
+/* Calendar Widget */
+.calendar-widget {
+  padding: 10px;
+  color: #c0caf5;
+}
+
+.calendar-widget :selected {
+  background-color: #7aa2f7;
+  color: #1a1b26;
+  border-radius: 12px;
+}
+
+/* Custom Frontends Styling */
+.search-input {
+  background-color: rgba(41, 46, 66, 0.4);
+  border: 1px solid rgba(122, 162, 247, 0.2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #c0caf5;
+  font-size: 14px;
+}
+
+.search-input:focus {
+  border: 1px solid #7aa2f7;
+  background-color: rgba(41, 46, 66, 0.6);
+}
+
+.result-item {
+  padding: 8px 12px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.result-item:hover {
+  background-color: rgba(122, 162, 247, 0.15);
+}
+
+.result-icon {
+  font-size: 20px;
+  color: #7aa2f7;
+  min-width: 32px;
+}
+
+.result-text {
+  font-size: 14px;
+  color: #c0caf5;
+  font-weight: 500;
+}
+
+.result-subtext {
+  font-size: 11px;
+  color: #565f89;
+}
+
+.popup-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #bb9af7;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(187, 154, 247, 0.2);
+}

@@ -1,0 +1,170 @@
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+                      :y "10px"
+                      :width "98%"
+                      :height "40px"
+                      :anchor "top center")
+  :exclusive true
+  (centerbox :orientation "h"
+    (left)
+    (center)
+    (right)
+  )
+)
+
+;; === Variables ===
+(deflisten active_apps :initial "[]" "scripts/active_apps.sh")
+(deflisten window_title :initial "" "scripts/window.sh")
+(defpoll media_status :interval "2s" :initial "{\"show\": false}" "scripts/media.sh")
+(defpoll current_time :interval "1s" "date '+%H:%M'")
+(defpoll current_date :interval "1m" "date '+%Y-%m-%d'")
+(deflisten network_status :initial "{\"status\": \"disconnected\", \"icon\": \"󰖪\"}" "scripts/network.sh")
+(defpoll bluetooth_status :interval "5s" :initial "{\"status\": \"off\", \"icon\": \"󰂲\"}" "scripts/bluetooth.sh")
+(deflisten volume_status :initial "{\"vol\": \"0\", \"icon\": \"󰕿\"}" "scripts/volume.sh")
+
+
+;; === Left Section ===
+  (box :class "pill launch"
+    (button :onclick "rofi-runner" "󰀻")
+  )
+
+(defwidget active_apps_widget []
+  (box :class "pill active-apps" :orientation "h" :space-evenly false :spacing 12
+    (for app in active_apps
+      (button :class "app-icon ${app.is_active ? 'active' : ''}"
+              :onclick "hyprctl dispatch workspace ${app.workspace}"
+              :tooltip "${app.class}"
+        {app.icon}
+      )
+    )
+  )
+)
+
+(defwidget media []
+  (revealer :transition "slideleft"
+            :reveal {media_status.show ?: false}
+            :duration "300ms"
+    (box :class "pill media" :orientation "h" :space-evenly false :spacing 8
+      (label :class "media-icon" :text {media_status.icon})
+      (label :class "media-title" :text {media_status.title})
+    )
+  )
+)
+
+(defwidget left []
+  (box :class "left" :orientation "h" :space-evenly false :halign "start" :spacing 10
+    (launch)
+    (active_apps_widget)
+    (media)
+  )
+)
+
+;; === Center Section ===
+(defwidget window_title_widget []
+  (box :class "pill window-title" :orientation "h" :visible "${window_title != ''}"
+    (label :text "${window_title}" :limit-width 50)
+  )
+)
+
+(defwidget center []
+  (box :class "center" :orientation "h" :space-evenly false :halign "center"
+    (window_title_widget)
+  )
+)
+
+;; === Right Section ===
+(defwidget right []
+  (box :class "right" :orientation "h" :space-evenly false :halign "end" :spacing 10
+    (button :class "pill interactable"
+            :onclick "eww open utilities --toggle"
+            :tooltip "Network: ${network_status.ssid}"
+      (label :text {network_status.icon})
+    )
+    (button :class "pill interactable"
+            :onclick "eww open utilities --toggle"
+            :tooltip "Bluetooth: ${bluetooth_status.device}"
+      (label :text {bluetooth_status.icon})
+    )
+    (button :class "pill interactable volume-btn"
+            :onclick "pamixer --toggle-mute"
+            :onrightclick "eww open utilities --toggle"
+      (box :orientation "h" :space-evenly false :spacing 6
+        (label :text {volume_status.icon})
+        (label :text "${volume_status.vol}%")
+      )
+    )
+    (button :class "pill interactable time-btn"
+            :onclick "eww open calendar_win --toggle"
+      (label :text "${current_time}")
+    )
+    (button :class "pill interactable utilities-btn"
+            :onclick "eww open utilities --toggle"
+      (label :text "")
+    )
+  )
+)
+
+;; === Popovers ===
+(defwindow utilities
+  :monitor 0
+  :geometry (geometry :x "-10px"
+                      :y "48px"
+                      :width "320px"
+                      :anchor "top right")
+  :stacking "fg"
+  :exclusive false
+  (box :class "utilities-popup pill-popup" :orientation "v" :space-evenly false :spacing 15
+    ;; Row 1: Network and Bluetooth toggles
+    (box :class "util-row-1" :orientation "h" :space-evenly true :spacing 10
+      (button :class "util-toggle ${network_status.status == 'connected' ? 'active' : ''}"
+              :onclick "nmcli radio wifi ${network_status.status == 'connected' ? 'off' : 'on'}"
+        (box :orientation "v" :space-evenly false :spacing 2
+          (label :class "util-icon" :text {network_status.icon})
+          (label :class "util-label" :text "WiFi")
+        )
+      )
+      (button :class "util-toggle ${bluetooth_status.status == 'connected' || bluetooth_status.status == 'on' ? 'active' : ''}"
+              :onclick "bluetoothctl power ${bluetooth_status.status == 'off' ? 'on' : 'off'}"
+        (box :orientation "v" :space-evenly false :spacing 2
+          (label :class "util-icon" :text {bluetooth_status.icon})
+          (label :class "util-label" :text "Bluetooth")
+        )
+      )
+    )
+    ;; Row 2: Volume Slider
+    (box :class "volume-slider-box util-row" :orientation "h" :space-evenly false :spacing 10
+      (label :class "slider-icon" :text {volume_status.icon})
+      (scale :class "volume-slider"
+             :value {volume_status.vol}
+             :min 0 :max 101
+             :onchange "pamixer --set-volume {}"
+             :timeout "500ms")
+    )
+    ;; Row 3: Misc (Dark/Light, Screenshot, Sleep, Power)
+    (box :class "util-row-3" :orientation "h" :space-evenly true :spacing 10
+      (button :class "min-btn" :onclick "hyprshade toggle blue-light-filter" "󰃠")
+      (button :class "min-btn" :onclick "grim -g \"$(slurp)\" - | wl-copy" "󰹑")
+      (button :class "min-btn" :onclick "systemctl suspend" "󰤄")
+      (button :class "min-btn" :onclick "systemctl poweroff" "󰐥")
+    )
+  )
+)
+
+(defwindow calendar_win
+  :monitor 0
+  :geometry (geometry :x "-140px"
+                      :y "48px"
+                      :width "250px"
+                      :anchor "top right")
+  :stacking "fg"
+  :exclusive false
+  (box :class "calendar-popup pill-popup"
+    (calendar :class "calendar-widget" 
+              :day {formattime(EWW_TIME, "%d")} 
+              :month {formattime(EWW_TIME, "%m")} 
+              :year {formattime(EWW_TIME, "%Y")})
+  )
+)
+
